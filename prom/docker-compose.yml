@@ -13,3 +13,9 @@ services:
       - --storage.tsdb.path=/prometheus
       - --web.console.libraries=/usr/share/prometheus/console_libraries
       - --web.console.templates=/usr/share/prometheus/consoles
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - "9100:9100"
+    command:
+      - --web.listen-address=:9100
