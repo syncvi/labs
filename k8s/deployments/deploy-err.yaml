@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dpldemo
+  name: dpldemo
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: dpldemo
+  template:
+    metadata:
+      labels:
+        app: dpldemo
+    spec:
+      containers:
+      - image: httpd:alpine3.19
+        name: httpd
+        command: ["/bin/bash", "-c"]
+        args: ["sleep 5; exit 1"]
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
