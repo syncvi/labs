@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: sample-rs
+  labels:
+    app: sample
+    type: whatevs
+spec:
+  template:
+    metadata:
+      name: sample-pod
+      labels:
+        app: sample
+        type: whatevs
+    spec:
+      containers:
+        - name: sample-nginx
+          image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      type: whatevs
