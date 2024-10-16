@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: openldap
+  namespace: lablan
+spec:
+  type: LoadBalancer
+  ports:
+    - name: ldap
+      port: 1389
+      targetPort: 1389
+    - name: ldaps
+      port: 1636
+      targetPort: 1636
+  selector:
+    app: openldap
