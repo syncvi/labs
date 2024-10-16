@@ -24,6 +24,8 @@ spec:
               value: "admin"
             - name: LDAP_ADMIN_PASSWORD
               value: "adminpassword"
+            - name: LDAP_DOMAIN
+              value: "ldap.local"
             - name: LDAP_USERS
               value: "user01,user02"
             - name: LDAP_PASSWORDS
