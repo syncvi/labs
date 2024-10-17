@@ -9,6 +9,7 @@ spec:
     - name: ldap
       port: 1389
       targetPort: 1389
+      nodePort: 32720
     - name: ldaps
       port: 1636
       targetPort: 1636

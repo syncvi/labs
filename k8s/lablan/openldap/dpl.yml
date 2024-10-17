@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: openldap
+        function: auth
     spec:
       containers:
         - name: openldap
