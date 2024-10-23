@@ -6,3 +6,4 @@
   - name: install tmux package
     ansible.builtin.apt:
       name: tmux
+      state: latest
