@@ -1,0 +1,55 @@
+apiVersion: v1
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health
+        ready
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+          pods insecure
+          fallthrough in-addr.arpa ip6.arpa
+        }
+        hosts /etc/coredns/NodeHosts {
+          ttl 60
+          reload 15s
+          fallthrough
+        }
+        prometheus :9153
+        forward . /etc/resolv.conf
+        cache 30
+        loop
+        reload
+        loadbalance
+        import /etc/coredns/custom/*.override
+    }
+
+    import /etc/coredns/custom/*.server
+
+    gitlab.local:53 {
+      errors
+      hosts {
+        10.43.45.241 gitlab.local
+        fallthrough
+      }
+    }
+  NodeHosts: |
+    172.18.0.1 host.k3d.internal
+    172.18.0.2 k3d-mycluster-server-0
+    172.18.0.3 k3d-mycluster-serverlb
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"Corefile":".:53 {\n    errors\n    health\n    ready\n    kubernetes cluster.local in-addr.arpa ip6.arpa {\n      pods insecure\n      fallthrough in-addr.arpa ip6.arpa\n    }\n    hosts /etc/coredns/NodeHosts {\n      ttl 60\n      reload 15s\n      fallthrough\n    }\n    prometheus :9153\n    forward . /etc/resolv.conf\n    cache 30\n    loop\n    reload\n    loadbalance\n    import /etc/coredns/custom/*.override\n}\nimport /etc/coredns/custom/*.server\n\ngitlab.local:53 {\n  errors\n  hosts:{\n    10.43.45.241\n  }\n}\n","NodeHosts":"172.18.0.1 host.k3d.internal\n172.18.0.2 k3d-mycluster-server-0\n172.18.0.3 k3d-mycluster-serverlb\n"},"kind":"ConfigMap","metadata":{"annotations":{"objectset.rio.cattle.io/applied":"H4sIAAAAAAAA/4yQQYvUQBCF/0pT56RNJzOb2OBB9iKIHj3NpZKubNr0VA1dvZFh2P8uYVQEWfX2mtf18d67AV7iF8oahcHD5qCCgAXB3+BRMs0xEXiw/tiZ24mNMYZylqx3vRCmstx1JgzXu1yfR8pMhdRM6VkLZZsEKvgsgT6IFgUPrm+tG2xjnVlEi127YCMXyozpxL/c1qxdqM/XH5xaKW+U6+bEDl4qWCMH8PAoPMenT3iBCs5U8GcFZJaCJQrr/pTxK01FqdgcxU5YSiIb5U3cGVC96ss3plw/bSt4WDv9zdlcZT5GDu/ehyD8TwTjeZ9zkkyB9b++6wWn/WbftNarFjrvxROOlP5aakFdwMM4UTt07dthcK4/dNh0wwOOR9fM7fzQ09wf2kMzHfsd+ke8VwO8fA8AAP//XxErPjkCAAA","objectset.rio.cattle.io/id":"","objectset.rio.cattle.io/owner-gvk":"k3s.cattle.io/v1, Kind=Addon","objectset.rio.cattle.io/owner-name":"coredns","objectset.rio.cattle.io/owner-namespace":"kube-system"},"creationTimestamp":"2024-10-17T11:12:51Z","labels":{"objectset.rio.cattle.io/hash":"bce283298811743a0386ab510f2f67ef74240c57"},"name":"coredns","namespace":"kube-system","resourceVersion":"476","uid":"27867f47-e6bf-412b-a2bc-3c3cd46dd393"}}
+    objectset.rio.cattle.io/applied: H4sIAAAAAAAA/4yQQYvUQBCF/0pT56RNJzOb2OBB9iKIHj3NpZKubNr0VA1dvZFh2P8uYVQEWfX2mtf18d67AV7iF8oahcHD5qCCgAXB3+BRMs0xEXiw/tiZ24mNMYZylqx3vRCmstx1JgzXu1yfR8pMhdRM6VkLZZsEKvgsgT6IFgUPrm+tG2xjnVlEi127YCMXyozpxL/c1qxdqM/XH5xaKW+U6+bEDl4qWCMH8PAoPMenT3iBCs5U8GcFZJaCJQrr/pTxK01FqdgcxU5YSiIb5U3cGVC96ss3plw/bSt4WDv9zdlcZT5GDu/ehyD8TwTjeZ9zkkyB9b++6wWn/WbftNarFjrvxROOlP5aakFdwMM4UTt07dthcK4/dNh0wwOOR9fM7fzQ09wf2kMzHfsd+ke8VwO8fA8AAP//XxErPjkCAAA
+    objectset.rio.cattle.io/id: ""
+    objectset.rio.cattle.io/owner-gvk: k3s.cattle.io/v1, Kind=Addon
+    objectset.rio.cattle.io/owner-name: coredns
+    objectset.rio.cattle.io/owner-namespace: kube-system
+  creationTimestamp: "2024-10-17T11:12:51Z"
+  labels:
+    objectset.rio.cattle.io/hash: bce283298811743a0386ab510f2f67ef74240c57
+  name: coredns
+  namespace: kube-system
+  resourceVersion: "10470"
+  uid: 27867f47-e6bf-412b-a2bc-3c3cd46dd393

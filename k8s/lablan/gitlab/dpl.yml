@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitlab
+  namespace: lablan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitlab
+  template:
+    metadata:
+      labels:
+        app: gitlab
+    spec:
+      containers:
+        - name: gitlab
+          image: gitlab/gitlab-ce:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: GITLAB_OMNIBUS_CONFIG
+              value: |
+                external_url 'http://gitlab.local'
+                gitlab_rails['ldap_enabled'] = true
+                gitlab_rails['ldap_servers'] = {
+                  'main' => {
+                    'label' => 'LDAP',
+                    'host' => 'openldap.lablan.svc.cluster.local',
+                    'port' => 1389,
+                    'uid' => 'uid',
+                    'bind_dn' => 'cn=admin,dc=ldap,dc=local',
+                    'password' => 'lolz',
+                    'encryption' => 'plain',
+                    'verify_certificates' => false,
+                    'smartcard_auth' => false,
+                    'active_directory' => false,
+                    'base' => 'dc=ldap,dc=local',
+                    'user_filter' => '',
+                    'group_base' => '',
+                    'admin_group' => '',
+                    'sync_ssh_keys' => false
+                  }
+                }
+          volumeMounts:
+            - name: gitlab-storage
+              mountPath: /etc/gitlab
+      volumes:
+        - name: gitlab-storage
+          persistentVolumeClaim:
+            claimName: gitlab-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitlab
+  namespace: lablan
+spec:
+  type: LoadBalancer
+  selector:
+    app: gitlab
+  ports:
+    - name: gl
+      port: 80
+      targetPort: 80
+      nodePort: 32080
