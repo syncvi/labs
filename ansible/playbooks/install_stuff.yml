@@ -6,8 +6,21 @@
   - name: update repository index
     ansible.builtin.apt:
       update_cache: yes
+    when: ansible_distribution == "Ubuntu"
 
   - name: install tmux package
     ansible.builtin.apt:
       name: tmux
       state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: update repository index
+    ansible.builtin.dnf:
+      update_cache: yes
+    when: ansible_distribution == "Fedora"
+
+  - name: install tmux package
+    ansible.builtin.dnf:
+      name: tmux
+      state: latest
+    when: ansible_distribution == "Fedora"
