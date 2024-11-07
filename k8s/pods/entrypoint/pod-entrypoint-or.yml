@@ -12,6 +12,6 @@ spec:
       image: alpine:latest
       command: ["sleep"]
       args: ["120"]
-      env:
-        - name: L_OL
-          value: lol
+      envFrom:
+        - configMapRef:
+            name: cm-ep
