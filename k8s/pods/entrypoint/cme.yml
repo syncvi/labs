@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cm-ep
+data:
+  LOL: LMAO
+  APP_MODE: dev
