@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: balpine-pod 
+  namespace: lablan 
+  labels:
+    type: always-up
+spec:
+  containers:
+    - name: balpine
+      # image: balpine:latest # have to add registry container to k3d
+      image: alpine:latest
+      command: ["sleep"]
+      args: ["120"]
+      env:
+        - name: HEY
+          valueFrom:
+            configMapKeyRef:
+              name: cm-ep
+              key: LOL
