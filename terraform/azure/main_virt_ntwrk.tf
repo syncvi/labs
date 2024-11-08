@@ -29,30 +29,23 @@ resource "azurerm_resource_group" "demogrp" {
   location = local.location
 }
 
-
 resource "azurerm_virtual_network" "demovirnet" {
   name                = local.virt_ntwrk.name
   location            = local.location
   resource_group_name = local.resource_group_name
   address_space       = local.virt_ntwrk.address_space
 
+  subnet {
+    name             = "subnetA"
+    address_prefixes = ["10.0.0.0/24"]
+  }
+
+  subnet {
+    name             = "subnetB"
+    address_prefixes = ["10.0.1.0/24"]
+  }
+
   depends_on = [azurerm_resource_group.demogrp]
-}
-
-resource "azurerm_subnet" "subnetA" {
-  name                 = "subnetA"
-  resource_group_name  = local.resource_group_name
-  virtual_network_name = azurerm_virtual_network.demovirnet.name
-  address_prefixes     = ["10.0.0.0/24"]
-  depends_on           = [azurerm_virtual_network.demovirnet]
-}
-
-resource "azurerm_subnet" "subnetB" {
-  name                 = "subnetB"
-  resource_group_name  = local.resource_group_name
-  virtual_network_name = azurerm_virtual_network.demovirnet.name
-  address_prefixes     = ["10.0.1.0/24"]
-  depends_on           = [azurerm_virtual_network.demovirnet]
 }
 
 resource "azurerm_network_interface" "demo-interface" {
@@ -62,13 +55,9 @@ resource "azurerm_network_interface" "demo-interface" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.subnetA.id
+    subnet_id                     = tolist(azurerm_virtual_network.demovirnet.subnet)[0].id
     private_ip_address_allocation = "Dynamic"
   }
 
-  depends_on = [azurerm_subnet.subnetA]
-}
-
-output "subnetA-id" {
-  value = azurerm_subnet.subnetA.id
+  depends_on = [azurerm_virtual_network.demovirnet]
 }
