@@ -1,0 +1,18 @@
+apiVersion: upgrade.cattle.io/v1
+kind: Plan
+metadata:
+  name: upgrade-plan
+  namespace: system-upgrade # created by system-upgrade controller manifest
+spec:
+  concurrency: 1 # upgrade one node at a time
+  cordon: true # make the node unschedulable
+  nodeSelector:
+    matchExpressions:
+    - key: k3s-upgrade # upgrade nodes that are labeled with this
+      operator: In
+      values:
+      - "true"
+  serviceAccountName: system-upgrade # created by system-upgrade controller manifest
+  upgrade:
+    image: rancher/k3s-upgrade # this image does the heavy lifting
+  version: v1.31.2+k3s1 # target version to upgrade to
