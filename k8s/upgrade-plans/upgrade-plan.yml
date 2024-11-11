@@ -1,18 +1,42 @@
+# Server plan
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
-  name: upgrade-plan
-  namespace: system-upgrade # created by system-upgrade controller manifest
+  name: server-plan
+  namespace: system-upgrade
 spec:
-  concurrency: 1 # upgrade one node at a time
-  cordon: true # make the node unschedulable
+  concurrency: 1
+  cordon: true
   nodeSelector:
     matchExpressions:
-    - key: k3s-upgrade # upgrade nodes that are labeled with this
+    - key: node-role.kubernetes.io/control-plane
       operator: In
       values:
       - "true"
-  serviceAccountName: system-upgrade # created by system-upgrade controller manifest
+  serviceAccountName: system-upgrade
   upgrade:
-    image: rancher/k3s-upgrade # this image does the heavy lifting
-  version: v1.31.2+k3s1 # target version to upgrade to
+    image: rancher/k3s-upgrade
+  version: v1.31.2+k3s1
+---
+# Agent plan
+apiVersion: upgrade.cattle.io/v1
+kind: Plan
+metadata:
+  name: agent-plan
+  namespace: system-upgrade
+spec:
+  concurrency: 1
+  cordon: true
+  nodeSelector:
+    matchExpressions:
+    - key: node-role.kubernetes.io/control-plane
+      operator: DoesNotExist
+  prepare:
+    args:
+    - prepare
+    - server-plan
+    image: rancher/k3s-upgrade
+  serviceAccountName: system-upgrade
+  upgrade:
+    image: rancher/k3s-upgrade
+  version: v1.31.2+k3s1
