@@ -22,3 +22,7 @@ services:
     image: grafana/grafana
     ports:
       - "3000:3000"
+  shoehub:
+    image: aussiearef/shoehub
+    ports:
+      - "5000:8080"

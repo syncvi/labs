@@ -16,3 +16,7 @@ scrape_configs:
     scrape_interval: "10s"
     static_configs:
       - targets: ['node-exporter:9100']
+  - job_name: "shoehub"
+    scrape_interval: "5s"
+    static_configs:
+      - targets: ['shoehub:8080']
