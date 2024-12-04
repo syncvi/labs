@@ -37,7 +37,9 @@ spec:
               value: "yes"
           volumeMounts:
             - name: openldap-storage
-              mountPath: /bitnami/openldap
+              mountPath: /bitnami/openldap-data
+      securityContext:
+        runAsNonRoot: false
       volumes:
         - name: openldap-storage
           persistentVolumeClaim:
