@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dpl
+  labels:
+    app: web
+    type: front
+  annotations:
+    buildversion: "1.33"
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      type: front
+  template:
+    metadata:
+      name: webapp
+      labels:
+        app: web
+        type: front
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: size
+                    operator: In
+                    values:
+                      - large
+      tolerations:
+        - key: "master"
+          operator: "Exists"
+          effect: "NoSchedule"
+      containers:
+        - name: ngx
+          image: nginx
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: 0.5
