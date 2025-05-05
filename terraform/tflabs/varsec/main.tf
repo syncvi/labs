@@ -31,3 +31,7 @@ module "random_module" {
   version = "1.0.0"
 }
 
+module "local" {
+  source = "./modules/rando"
+  length = 5
+}

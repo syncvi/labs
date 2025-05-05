@@ -27,3 +27,7 @@ output "ranmod" {
   value = module.random_module.random_string
 
 }
+output "local_rand" {
+  value = module.local.random_string
+
+}
