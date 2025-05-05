@@ -23,3 +23,7 @@ output "primary_region_instance" {
 output "kind" {
   value = var.sku_settings.kind
 }
+output "ranmod" {
+  value = module.random_module.random_string
+
+}

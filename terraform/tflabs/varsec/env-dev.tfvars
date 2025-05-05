@@ -1,6 +1,6 @@
 environment_name = "lmao"
 instance_count   = 7
-enabled          = true
+enabled          = false
 regions          = ["westus", "eastus"]
 region_instance_count = {
   "westus" = 3
