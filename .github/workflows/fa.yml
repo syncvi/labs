@@ -1,0 +1,10 @@
+name: fa
+on: workflow_dispatch
+jobs:
+  first-sample-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print greeting
+        run: echo "hello"
+      - name: lol
+        run: echo "lol"
