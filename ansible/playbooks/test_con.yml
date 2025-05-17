@@ -1,0 +1,26 @@
+- name: test connectivity
+  hosts: homelab
+  # gather_facts: false
+  vars:
+    motd: "hey whats up\n"
+  tasks:
+    - name: ping test
+      ping:
+    - name: display os release
+      command: cat /etc/os-release
+    - name: configure motd
+      copy:
+        content: "{{motd}}"
+        dest: /etc/motd
+      notify: MOTD changed
+    - name: set a custom fact
+      set_fact:
+        custom_lol: lol!
+        distro: "{{ ansible_distribution | upper }}"
+    - name: show custom facts
+      debug:
+        msg: "{{ custom_lol }} {{ distro }}"
+  handlers:
+    - name: MOTD changed
+      debug:
+        msg: "the motd was changed"
