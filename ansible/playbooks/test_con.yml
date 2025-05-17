@@ -1,5 +1,6 @@
 - name: test connectivity
   hosts: homelab
+  become: true
   # gather_facts: false
   vars:
     motd: "hey whats up\n"
@@ -23,6 +24,26 @@
         msg:
           - "port: {{ webserver_app_port }}"
           - "path:{{ webserver_app_path }}"
+    - name: pause for 1s
+      pause:
+        seconds: 1
+    # - name: install ubuntu updates
+    #   apt:
+    #     upgrade: dist
+    #     update_cache: yes
+    #   when: ansible_distribution == "Ubuntu"
+    - name: install nginx
+      apt:
+        name:
+          - nginx
+        state: latest
+    - name: make sure that nginx is running
+      service:
+        name: nginx
+        state: restarted
+    - name: wait for webserver to be running on port 80
+      wait_for:
+        port: 80
   handlers:
     - name: MOTD changed
       debug:
