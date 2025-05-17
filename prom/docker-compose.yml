@@ -18,6 +18,12 @@ services:
       - "9100:9100"
     command:
       - --web.listen-address=:9100
+  node-lmao:
+    image: prom/node-exporter
+    ports:
+      - "9101:9100"
+    command:
+      - --web.listen-address=:9100
   grafana:
     image: grafana/grafana
     ports:
@@ -25,4 +31,4 @@ services:
   shoehub:
     image: aussiearef/shoehub
     ports:
-      - "5000:8080"
+      - "5001:8080"
