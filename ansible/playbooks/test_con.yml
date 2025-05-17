@@ -15,11 +15,14 @@
       notify: MOTD changed
     - name: set a custom fact
       set_fact:
-        custom_lol: lol!
-        distro: "{{ ansible_distribution | upper }}"
+        webserver_app_port: 80
+        webserver_app_path: /var/www/html
+      when: ansible_distribution == 'Ubuntu'
     - name: show custom facts
       debug:
-        msg: "{{ custom_lol }} {{ distro }}"
+        msg:
+          - "port: {{ webserver_app_port }}"
+          - "path:{{ webserver_app_path }}"
   handlers:
     - name: MOTD changed
       debug:
