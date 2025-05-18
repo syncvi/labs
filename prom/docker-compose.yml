@@ -12,28 +12,28 @@ services:
       - --storage.tsdb.path=/prometheus
       - --web.console.libraries=/usr/share/prometheus/console_libraries
       - --web.console.templates=/usr/share/prometheus/consoles
-  node-exporter:
+  prod-logs-node:
     image: prom/node-exporter
     hostname: prod-logs
     ports:
       - "9100:9100"
     command:
       - --web.listen-address=:9100
-  node-lmao:
+  prod-app-node:
     image: prom/node-exporter
     hostname: prod-app
     ports:
       - "9101:9100"
     command:
       - --web.listen-address=:9100
-  node-third:
+  dev-logs-node:
     image: prom/node-exporter
     hostname: dev-logs
     ports:
       - "9102:9100"
     command:
       - --web.listen-address=:9100
-  node-fourth:
+  dev-tests-node:
     image: prom/node-exporter
     hostname: dev-tests
     ports:
