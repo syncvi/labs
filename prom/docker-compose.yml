@@ -14,21 +14,41 @@ services:
       - --web.console.templates=/usr/share/prometheus/consoles
   node-exporter:
     image: prom/node-exporter
+    hostname: prod-logs
     ports:
       - "9100:9100"
     command:
       - --web.listen-address=:9100
   node-lmao:
     image: prom/node-exporter
+    hostname: prod-app
     ports:
       - "9101:9100"
+    command:
+      - --web.listen-address=:9100
+  node-third:
+    image: prom/node-exporter
+    hostname: dev-logs
+    ports:
+      - "9102:9100"
+    command:
+      - --web.listen-address=:9100
+  node-fourth:
+    image: prom/node-exporter
+    hostname: dev-tests
+    ports:
+      - "9103:9100"
     command:
       - --web.listen-address=:9100
   grafana:
     image: grafana/grafana
     ports:
       - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
   shoehub:
     image: aussiearef/shoehub
     ports:
       - "5001:8080"
+volumes:
+  grafana_data:

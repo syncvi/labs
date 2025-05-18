@@ -17,6 +17,8 @@ scrape_configs:
     static_configs:
       - targets: ["node-exporter:9100"]
       - targets: ["node-lmao:9100"]
+      - targets: ["node-third:9100"]
+      - targets: ["node-fourth:9100"]
   - job_name: "shoehub"
     scrape_interval: "5s"
     static_configs:
