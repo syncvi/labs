@@ -2,8 +2,10 @@ name: "01"
 
 on:
   push:
-    - "main"
-  pull_request: ["main"]
+    branches:
+      - "main"
+  pull_request: 
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -11,5 +13,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-        echo "lol"
-        echo "hellx"
+          echo "lol"
+          echo "hellx"
