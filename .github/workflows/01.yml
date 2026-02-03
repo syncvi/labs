@@ -1,0 +1,15 @@
+name: "01"
+
+on:
+  push:
+    - "main"
+  pull_request: ["main"]
+  workflow_dispatch:
+
+jobs:
+  print:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+        echo "lol"
+        echo "hellx"
