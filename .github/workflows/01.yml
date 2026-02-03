@@ -15,3 +15,10 @@ jobs:
       - run: |
           echo "lol"
           echo "hellx"
+
+  pyth:
+    runs-on: ubuntu-latest
+    steps:
+      - name:  "run python"
+        run: print(2*2)
+        shell: python
