@@ -37,6 +37,8 @@ jobs:
   
   envy:
     runs-on: ubuntu-latest
+    needs:
+      - build
     env: 
       JOB_SECRET: 456
     steps:
