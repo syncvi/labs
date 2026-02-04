@@ -36,7 +36,7 @@ jobs:
           fetch-depth: 1
   
   envy:
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
     env: 
       JOB_SECRET: 456
     steps:
