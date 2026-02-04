@@ -5,10 +5,16 @@ on:
     branches:
       - "main"
   pull_request:
-    branches: ["main"]
+    branches: 
+      - '!releases/alpha-**'
+      - 'releases/**'
+    types: ["opened"]
+    paths:
+      - "mock/filters/*.md"
+      - "!mock/filters/"
   workflow_dispatch:
-  schedule:
-    - cron: "15 4 * * 1-5"
+  # schedule:
+  #   - cron: "15 4 * * 1-5"
 
 jobs:
   print:
